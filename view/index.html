@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="./css/main.css">
+<head>
+	<meta charset="UTF-8">
+	<title>在线相册</title>
+<!-- <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+  </script> --> 
+</head>
+<body>
+<div style="margin-left:10px;">
+	<div style="display: inline-block; font-size:45px;margin: 20px 0px; ">在线相册</div>
+	<div style="display: inline-block; ">
+	<a href="index.php">首页</a>
+	<?php foreach($nav as $v): ?>
+		<a href="index.php?id=<?=$v['id']?>">><?=$v['name']?></a>
+	<?php endforeach ?>
+	</div>
+</div>
+<hr />
+<div class="nav2_div">
+    <div style="display: inline-block;">
+    <a class="<?=($sort!='old')?'curr':'curr1'?>" href="?id=<?=$id?>">最新的</a>
+    <a class="<?=($sort=='old')?'curr':'curr1'?>" href="?id=<?=$id?>&sort=old">最旧的</a>
+    </div>
+    <div style="display: inline-block;" >
+    <form method="post">
+        <input type="hidden" name="action" value="new">
+    	<input type="text" name="name" placeholder="新建相册名称" required>
+    	<input type="submit" value="创建相册">
+    </form>
+    </div>
+    <div style="display: inline-block;" id="btn">
+        <input id="add_btn" onclick="add();" type="button" name="add" value="添加">
+    </div>
+    <div class="search_div">
+        <form method="get" action="search.php">
+            <input type="hidden" name="action" value="search">
+            <input type="text" name="search" placeholder="输入关键字" required>
+            <input type="submit" value="搜索">
+        </form>
+    </div>
+    </div>  
+</div>
+<hr />
+<h1><?php if(!$list['album']&&!$list['picture']): echo '相册是空的'; endif;?></h1>
+<div>
+    <?php foreach($list['album'] as $v): ?>
+    	<div class="div_alb">
+    		<div class="div_sign">相册</div>
+            <form method="post">
+                <input type="hidden" name="action_id" value="<?=$v['id']?>">
+                <button class="pic_del" onclick= "return confirm('您确定要删除吗？');" name="action" value="alb_delete" title="删除">×</button>
+            </form>
+            <a href="?id=<?=$v['id']?>"><img class="album_img" src="./covers/<?=$v['cover']?:'nopic.png'?>"></a>
+    		<span class="text_alb"><?=htmlspecialchars($v['name'])?>(<?=$v['total']?>)</span>
+    	</div>
+    <?php endforeach;?>
+</div>
+<div>   
+    <?php foreach($list['picture'] as $v): ?>
+    	<div class="div_pic">
+            <form method="post">
+                <input type="hidden" name="action_id" value="<?=$v['id']?>">
+                <?php if($id): ?>
+                    <button class="pic_set_cover" onclick= "return confirm('设置为该相册封面吗？');"  name="action" value="pic_cover" title="封面">○</button>                    
+                <?php endif; ?>
+                <button class="pic_del" onclick= "return confirm('您确定要删除吗？');" name="action" value="pic_delete" title="删除">×</button>
+            </form>
+    		<a href="show.php?id=<?=$v['id']?>"><img class="album_img" src="./thumbs/<?=$v['save']?>"></a>
+            <span class="text_pic"><?=htmlspecialchars($v['name'])?></span>
+    	</div>   
+    <?php endforeach; ?>
+</div>	
+</body>
+</html>
+<script>
+    function add(){
+		text =  '<form method="post" enctype="multipart/form-data">';
+    	text += '<input type="hidden" name="action" value="upload">';
+    	text += '<input type="file" name="upload" required>';
+    	text += '<input type="submit" value="添加">';
+    	text += '</form>';
+	    document.getElementById("btn").innerHTML = text;
+	}
+   
+    <?php if(null !==($tips=tips())): ?>
+        alert(<?=json_encode($tips)?>);   
+    <?php endif; ?>
+</script>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="./css/main.css">
+<head>
+	<meta charset="UTF-8">
+	<title><?=htmlspecialchars($data['name'])?>-在线相册</title>
+</head>
+<body>
+<div style="margin-left:10px;">
+	<div style="display: inline-block; font-size:45px;margin: 20px 0px; ">在线相册</div>
+	<div style="display: inline-block; ">
+	<a href="index.php">首页</a>
+    <?php foreach($nav as $v): ?>
+    <a href="index.php?id=<?=$v['id']?>">><?=$v['name']?></a>
+    <?php endforeach ?>
+	</div>
+</div>
+<hr />
+<div style="margin-left:10px;height:45px">
+    <div style="display: inline-block;"><span class="curr2"><?=htmlspecialchars($data['name'])?></span></div>
+    <!-- <div style="display: inline-block;margin-left:10px;"><a href="./uploads/<?=$data['save']?>" target="_blank">查看原图</a></div> -->
+</div>
+<hr />
+<div class="view_pic">
+    <?php if($prev): ?>
+    <a class="prev_btn" href="?id=<?=$prev?>">←</a><?php else: ?><a href="" class="prev_btn">←</a>
+    <?php endif; ?>
+    <a href="./uploads/<?=$data['save']?>" target="_blank" title="查看原图"><img class="show_img" src="./uploads/<?=$data['save']?>"></a>
+    <?php if($next): ?>      
+    <a class="next_btn" href="?id=<?=$next?>">→</a><?php else: ?><a href="" class="next_btn">→</a>
+    <?php endif; ?>
+</div>	
+</body>
+</html>
+

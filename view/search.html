@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="./css/main.css">
+<head>
+	<meta charset="UTF-8">
+	<title>搜索-在线相册</title>
+</head>
+<body>
+<div style="margin-left:10px;">
+	<div style="display: inline-block; font-size:45px;margin: 20px 0px; ">在线相册</div>
+	<div style="display: inline-block; ">
+	<a href="index.php">首页</a>>搜索结果
+	</div>
+</div>
+<hr />
+<div style="margin-left:10px;height:45px;position:relative; ">
+    <div style="display: inline-block;"><span class="curr2">"<?=htmlspecialchars($search)?>"</span></div>
+    <div class="search_div">
+        <form method="get" action="search.php">
+            <input type="hidden" name="action" value="search">
+            <input type="text" name="search" placeholder="输入关键字" required>
+            <input type="submit" value="搜索">
+        </form>
+    </div>
+</div>
+<hr />
+<div>
+    <?php if(empty($list)): ?>
+    <h1>很抱歉，找不和"<?=htmlspecialchars($search)?>"相关的内容</h1>
+    <?php endif; ?>
+    <?php foreach($list as $v): ?>
+        <div class="div_pic">
+            <a href="show.php?id=<?=$v['id']?>"><img class="album_img" src="./thumbs/<?=$v['save']?>"></a>
+            <span class="text_pic"><?=htmlspecialchars($v['name'])?></span>
+        </div>    
+    <?php endforeach; ?>
+</div>
+</body>
+</html>
+
